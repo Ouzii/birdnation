@@ -4,7 +4,6 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 document.write(`<script src=https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_MAP_API_KEY}></script>`)
-console.log(process.env.REACT_APP_API_KEY)
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
