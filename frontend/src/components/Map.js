@@ -24,7 +24,7 @@ class Map extends React.Component {
     return (
       <div>
         <MapWithMarker
-          containerElement={ <div style={{ height: `250px`, width: '250px' }} /> }
+          containerElement={ <div style={{ height: `250px`, width: '250px', marginLeft: 'auto', marginRight: 'auto' }} /> }
           mapElement={ <div style={{ height: `100%` }} /> }
         />
       </div>

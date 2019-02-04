@@ -7,7 +7,8 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      observations: null
+      observations: null,
+      sortedBy: 'species'
     }
   }
 
@@ -46,6 +47,12 @@ class App extends React.Component {
     return (
       <div>
         <h1>Birdnation</h1>
+        <button onClick={() => window.alert("To be implemented")}>Add a new observation</button>
+        <br></br>
+        <br></br>
+        <button onClick={() => window.alert("To be implemented")}>Sort by: {this.state.sortedBy}</button>
+        <br></br>
+        <br></br>
         {this.state.observations ?
           this.state.observations.map(obs => <ObservationCard observation={obs} key={obs.id}/>)
           :

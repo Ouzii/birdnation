@@ -10,16 +10,28 @@ class ObservationCard extends React.Component {
         }
     }
 
+    resize = () => {
+        this.setState(this.state)
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.resize)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.resize)
+    }
+
     toggleExtended() {
         this.setState({ ...this.state, extended: !this.state.extended })
     }
 
     render() {
         return (
-            <div >
+            <div>
                 {this.state.extended ?
-                    <Card >
-                        <div onClick={() => this.toggleExtended()} style={{ cursor: "pointer" }}>
+                    <Card className='cardReact'>
+                        <div onClick={() => this.toggleExtended()} >
                         <h4>{this.state.species}</h4>
                         
                         <CardBody>
@@ -43,8 +55,8 @@ class ObservationCard extends React.Component {
                         <Map lat={this.state.latitude} lng={this.state.longitude}/>
                     </Card>
                     :
-                    <div onClick={() => this.toggleExtended()} style={{ cursor: "pointer" }}>
-                    <Card >
+                    <div onClick={() => this.toggleExtended()} >
+                    <Card className='cardReact'>
                         <h4>{this.state.species}</h4> <br></br>
                         {this.state.notes.substring(0, 15)}...
                     </Card>
