@@ -1,18 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
+import ObservationCard from './components/ObservationCard';
+import observationService from './services/observations';
 import './App.css';
 
-class App extends Component {
+class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      position: null
+      observations: null
     }
   }
 
-  async componentWillMount() {
-    const pos = await this.loadPosition()
-    this.setState({position: pos})
+
+  async componentDidMount() {
+    const obs = await observationService.getAll();
+    const localObservations = JSON.parse(window.localStorage.getItem('observations'));
+    if (obs !== localObservations) {
+      window.localStorage.setItem('observations', JSON.stringify(obs));
+    }
+    if (this.state.observations !== obs) {
+      this.setState({ observations: obs })
+    }
+    
   }
+
   getCurrentPosition = (options = {}) => {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject, options)
@@ -33,9 +44,15 @@ class App extends Component {
   render() {
 
     return (
-      <p>Location: {this.state.position ? this.state.position.latitude+", "+this.state.position.longitude : "Not available"}</p>
-    );
+      <div>
+        <h1>Birdnation</h1>
+        {this.state.observations ?
+          this.state.observations.map(obs => <ObservationCard observation={obs} key={obs.id}/>)
+          :
+          <p>No observations</p>}
+      </div>
+    )
   }
 }
 
-export default App;
+export default App
