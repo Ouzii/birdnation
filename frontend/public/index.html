@@ -6,7 +6,7 @@
   <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
   <script src="https://maps.googleapis.com/maps/api/js?key=%REACT_APP_MAP_API_KEY%"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <form method="post" action="%PUBLIC_URL%" id="offlinePostForm"></form>
+  <form method="post" action="%PUBLIC_URL%/" id="offlinePostForm"></form>
   <script>
     self.addEventListener('axios', (event) => {
       if (event.detail.method === "post") {
@@ -50,7 +50,7 @@
         }
         localStorage.removeItem('newPost');
         form.submit();
-        console.log("Posted!")
+        window.alert("POSTED!")
       } else {
         console.log("No cached posts to send")
       }

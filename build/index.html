@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="shortcut icon" href="/favicon.ico"/><script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAB1yHLAf1meWRP2PcHUeyrxwX59V9KQLc"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><form method="post" action="" id="offlinePostForm"></form><script>self.addEventListener('axios', (event) => {
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="shortcut icon" href="/favicon.ico"/><script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAB1yHLAf1meWRP2PcHUeyrxwX59V9KQLc"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><form method="post" action="/" id="offlinePostForm"></form><script>self.addEventListener('axios', (event) => {
       if (event.detail.method === "post") {
 
         fetch(cloneRequest(event.detail))
@@ -40,7 +40,7 @@
         }
         localStorage.removeItem('newPost');
         form.submit();
-        console.log("Posted!")
+        window.alert("POSTED!")
       } else {
         console.log("No cached posts to send")
       }
