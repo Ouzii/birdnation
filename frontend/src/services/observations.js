@@ -3,7 +3,7 @@ import axios from 'axios'
 const baseUrl = 'https://birdnation.herokuapp.com/api/observations'
 
   axios.interceptors.request.use(function (config) {
-    if (config.method === 'post') {
+    if (config.method === 'post' && !navigator.onLine) {
         window.dispatchEvent(new CustomEvent('axios', { detail: config }))
     }
     return config;

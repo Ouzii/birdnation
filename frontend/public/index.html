@@ -13,44 +13,57 @@
 
         fetch(cloneRequest(event.detail))
           .catch((error) => {
-            store(event.detail.data)
+            store(event.detail)
           })
 
       }
     });
 
     function cloneRequest(req) {
-      const request = req instanceof Request ? req : new Request(req);
+      const request = req instanceof Request ? req : new Request(req.url);
 
       const {
         cache, credentials, headers, integrity, method,
         mode, redirect, referrer, referrerPolicy, url, body
       } = request;
 
-
       return new Request(url, {
-        cache, credentials, headers, integrity, method,
-        mode, redirect, referrer, referrerPolicy, body
+        cache, credentials, headers: new Headers({ 'Content-Type': 'Application/json' }), integrity, method: 'POST',
+        mode, redirect, referrer, referrerPolicy, bodyUsed: true, body: JSON.stringify(req.data)
       })
     }
 
     function store(data) {
-      var newPost = JSON.stringify(data);
-      localStorage.setItem('newPost', newPost);
+      localStorage.setItem('newPost', JSON.stringify(data.data));
     };
 
     $(function () {
       console.log("Checking for cached posts..")
       if (localStorage.getItem('newPost')) {
-        var values = JSON.parse(window.localStorage.getItem('newPost'))
-        var form = $("#offlinePostForm");
-        for (var i = 0; i < values.length; i++) {
-          var input = '<input type="hidden" name="'+values[i].name+'" value='+values[i].value+'">'
-          $(input).appendTo(form);
-        }
-        localStorage.removeItem('newPost');
-        form.submit();
-        window.alert("POSTED!")
+        var reqInfo = JSON.parse(window.localStorage.getItem('newPost'))
+        fetch('https://birdnation.herokuapp.com/api/observations', {
+          method: "POST", // *GET, POST, PUT, DELETE, etc.
+          mode: "cors", // no-cors, cors, *same-origin
+          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: "same-origin", // include, *same-origin, omit
+          headers: {
+            "Content-Type": "application/json",
+            // "Content-Type": "application/x-www-form-urlencoded",
+          },
+          redirect: "follow", // manual, *follow, error
+          referrer: "no-referrer", // no-referrer, *client
+          body: reqInfo // body data type must match "Content-Type" header
+        }).then((res) => {
+          res.json()
+            .then((jsonRes) => {
+              window.localStorage.setItem('postedObs', JSON.stringify(jsonRes))
+              window.dispatchEvent(new Event('postCache'))
+              console.log("Posted cache")
+              window.localStorage.removeItem('newPost')
+            })
+        }).catch((error) => {
+          console.log(error)
+        })
       } else {
         console.log("No cached posts to send")
       }

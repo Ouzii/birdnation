@@ -23,13 +23,10 @@ observationRouter.get("/:id", async (request, response) => {
 
 observationRouter.post("/", async (request, response) => {
   try {
-    console.log(request.body);
     const body = request.body;
-    console.log(body.constructor === Object && Object.keys(body).length === 0)
     if (body === undefined || (body.constructor === Object && Object.keys(body).length === 0)) {
       return response.status(400).json({ error: "Content missing" });
     }
-    console.log(body);
     const observation = new Observation({
       species: body.species,
       rarity: body.rarity,
@@ -38,7 +35,6 @@ observationRouter.post("/", async (request, response) => {
       latitude: body.latitude,
       longitude: body.longitude
     });
-    console.log(observation);
     let newObservation = await observation.save();
 
     response.status(200).send(Observation.format(newObservation));

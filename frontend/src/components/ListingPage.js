@@ -17,6 +17,12 @@ class ListingPage extends React.Component {
         this.sortObservations()
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.props !== nextProps) {
+            this.setState({ observations: nextProps.observations })
+        }
+    }
+
     sortObservations() {
         const sortWith = this.state.sortedBy[this.state.sortNo];
         let sortedObservations = this.state.observations
@@ -69,7 +75,7 @@ class ListingPage extends React.Component {
                 break
         }
 
-        this.setState({ observations: sortedObservations, sorted: true })
+        this.setState({ observations: sortedObservations })
     }
 
     async changeSorting() {

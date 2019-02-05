@@ -14,7 +14,20 @@ class App extends React.Component {
   }
 
 
+  componentWillUnmount() {
+    window.removeEventListener('postCache')
+  }
+
   async componentDidMount() {
+    window.addEventListener('postCache', async () => {
+      if (this.state.observations) {
+          let obs = this.state.observations
+          let postedObs = JSON.parse(window.localStorage.getItem('postedObs'))
+          const newStateObservations = [postedObs, ...obs]
+          await this.setState({ observations: newStateObservations })
+          window.localStorage.removeItem('postedObs')
+      }
+    })
     let obs = []
     obs = await observationService.getAll()
       .catch(error => {

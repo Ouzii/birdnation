@@ -32,7 +32,7 @@ class ObservationForm extends React.Component {
     addObservation = async (event) => {
         event.preventDefault()
         const position = await this.loadPosition()
-        const newObservation = {
+        let newObservation = {
             species: this.state.species,
             rarity: this.state.rarity,
             notes: this.state.notes,
@@ -40,10 +40,18 @@ class ObservationForm extends React.Component {
             longitude: position.longitude,
             time: new Date()
         }
+        
 
-        const savedObservation = await observationService.create(newObservation)
-        this.props.updateObservations(savedObservation)
-        await this.setState({ returnToIndex: true })
+        await observationService.create(newObservation)
+        .then((savedObservation) =>
+            this.props.updateObservations(savedObservation)
+        )
+        .catch((error) => {
+            console.log(error)
+            this.props.updateObservations({id: 0, ...newObservation})
+        })
+        this.setState({ returnToIndex: true })
+        
     }
 
     handleChange = (event) => {
