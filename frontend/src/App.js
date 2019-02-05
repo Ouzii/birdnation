@@ -25,7 +25,11 @@ class App extends React.Component {
       window.localStorage.setItem('observations', JSON.stringify(obs))
       await this.setState({ observations: obs })
     } else {
-      await this.setState({ observations: localObservations })
+      if (localObservations) {
+        await this.setState({ observations: localObservations })
+      } else {
+        await this.setState({ observations: [] })
+      }
     }
   }
 
@@ -42,7 +46,7 @@ class App extends React.Component {
         <BrowserRouter>
           <div>
             <h1>Birdnation</h1>
-            {this.state.observations ?
+            {this.state.observations && this.state.observations.length > 0 ?
               <Route
                 exact
                 path='/'
