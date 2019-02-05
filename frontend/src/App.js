@@ -17,9 +17,9 @@ class App extends React.Component {
   async componentDidMount() {
     let obs = []
     obs = await observationService.getAll()
-    .catch(error => {
-      return JSON.parse(window.localStorage.getItem('observations'))
-    })
+      .catch(error => {
+        return JSON.parse(window.localStorage.getItem('observations'))
+      })
     const localObservations = JSON.parse(window.localStorage.getItem('observations'))
     if (obs !== localObservations && obs.length > 0) {
       window.localStorage.setItem('observations', JSON.stringify(obs))
@@ -51,12 +51,19 @@ class App extends React.Component {
                     key='listingpage' />)}
               />
               :
-              <div>
-              <NavLink to='/newobservation'>New observation</NavLink>
-              <br></br>
-              <br></br>
-              <p>No observations</p>
-              </div>
+              <Route
+                exact
+                path='/'
+                render={() => (
+                  <div>
+                    <NavLink to='/newobservation'>New observation</NavLink>
+                    <br></br>
+                    <br></br>
+                    <p>No observations</p>
+                  </div>
+                )}
+              />
+
             }
             <Route
               exact
