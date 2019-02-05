@@ -1,62 +1,65 @@
 import React from 'react';
-import ObservationCard from './components/ObservationCard';
 import observationService from './services/observations';
 import './App.css';
+import ObservationForm from './components/ObservationForm';
+import { BrowserRouter, Route } from 'react-router-dom';
+import ListingPage from './components/ListingPage';
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      observations: null,
-      sortedBy: 'species'
+      observations: null
     }
   }
 
 
   async componentDidMount() {
-    const obs = await observationService.getAll();
-    const localObservations = JSON.parse(window.localStorage.getItem('observations'));
-    if (obs !== localObservations) {
-      window.localStorage.setItem('observations', JSON.stringify(obs));
+    const obs = await observationService.getAll()
+    const localObservations = JSON.parse(window.localStorage.getItem('observations'))
+    if (obs !== localObservations && obs.length > 0) {
+      window.localStorage.setItem('observations', JSON.stringify(obs))
+      await this.setState({ observations: obs })
+    } else {
+      await this.setState({ observations: localObservations })
     }
-    if (this.state.observations !== obs) {
-      this.setState({ observations: obs })
-    }
-    
   }
 
-  getCurrentPosition = (options = {}) => {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject, options)
-    })
-  }
-
-  loadPosition = async () => {
-    try {
-      const position = await this.getCurrentPosition()
-      const { latitude, longitude } = position.coords
-      console.log(position)
-      return { latitude, longitude }
-    } catch (error) {
-      console.log(error)
-    }
+  updateObservations(newObservation) {
+    const obs = this.state.observations
+    obs.push(newObservation)
+    window.localStorage.setItem('observations', JSON.stringify(obs))
+    this.setState({ observations: obs })
   }
 
   render() {
-
     return (
       <div>
-        <h1>Birdnation</h1>
-        <button onClick={() => window.alert("To be implemented")}>Add a new observation</button>
-        <br></br>
-        <br></br>
-        <button onClick={() => window.alert("To be implemented")}>Sort by: {this.state.sortedBy}</button>
-        <br></br>
-        <br></br>
-        {this.state.observations ?
-          this.state.observations.map(obs => <ObservationCard observation={obs} key={obs.id}/>)
-          :
-          <p>No observations</p>}
+        <BrowserRouter>
+          <div>
+            <h1>Birdnation</h1>
+            {this.state.observations ?
+              <Route
+                exact
+                path='/'
+                render={() => (
+                  <ListingPage observations={this.state.observations}
+                    key='listingpage' />)}
+              />
+              :
+              <p>No observations</p>
+            }
+            <Route
+              exact
+              path='/newobservation'
+              render={() => (
+                <ObservationForm updateObservations={this.updateObservations.bind(this)}
+                  key='newobservation' />)}
+            />
+
+
+          </div>
+        </BrowserRouter>
       </div>
     )
   }
