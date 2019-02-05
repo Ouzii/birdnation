@@ -2,7 +2,7 @@ import React from 'react';
 import observationService from './services/observations';
 import './App.css';
 import ObservationForm from './components/ObservationForm';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, NavLink } from 'react-router-dom';
 import ListingPage from './components/ListingPage';
 
 class App extends React.Component {
@@ -15,7 +15,11 @@ class App extends React.Component {
 
 
   async componentDidMount() {
-    const obs = await observationService.getAll()
+    let obs = []
+    obs = await observationService.getAll()
+    .catch(error => {
+      return JSON.parse(window.localStorage.getItem('observations'))
+    })
     const localObservations = JSON.parse(window.localStorage.getItem('observations'))
     if (obs !== localObservations && obs.length > 0) {
       window.localStorage.setItem('observations', JSON.stringify(obs))
@@ -47,7 +51,12 @@ class App extends React.Component {
                     key='listingpage' />)}
               />
               :
+              <div>
+              <NavLink to='/newobservation'>New observation</NavLink>
+              <br></br>
+              <br></br>
               <p>No observations</p>
+              </div>
             }
             <Route
               exact

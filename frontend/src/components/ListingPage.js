@@ -10,7 +10,7 @@ class ListingPage extends React.Component {
             sortedBy: ['time (newest)', 'time (oldest)', 'species', 'rarity'],
             sortNo: 0
         }
-        
+
     }
 
     componentDidMount() {
@@ -21,65 +21,65 @@ class ListingPage extends React.Component {
         const sortWith = this.state.sortedBy[this.state.sortNo];
         let sortedObservations = this.state.observations
         switch (sortWith) {
-          case 'time (newest)':
-            sortedObservations.sort((a, b) => {
-              if (new Date(a.time) > new Date(b.time)) {
-                return -1
-              } else if (new Date(a.time) < new Date(b.time)) {
-                return 1
-              } else {
-                return 0
-              }
-            })
-            break
-          case 'time (oldest)':
-            sortedObservations.sort((a, b) => {
-              if (new Date(a.time) < new Date(b.time)) {
-                return -1
-              } else if (new Date(a.time) > new Date(b.time)) {
-                return 1
-              } else {
-                return 0
-              }
-            })
-            break
-          case 'species':
-            sortedObservations.sort((a, b) => {
-              if (a.species.toString().toUpperCase() < b.species.toString().toUpperCase()) {
-                return -1
-              } else if (a.species.toString().toUpperCase() > b.species.toString().toUpperCase()) {
-                return 1
-              } else {
-                return 0
-              }
-            })
-            break
-          case 'rarity':
-            sortedObservations.sort((a, b) => {
-              if (a.rarity.toString().toUpperCase() < b.rarity.toString().toUpperCase()) {
-                return -1
-              } else if (a.rarity.toString().toUpperCase() > b.rarity.toString().toUpperCase()) {
-                return 1
-              } else {
-                return 0
-              }
-            })
-            break
-          default:
-            break
+            case 'time (newest)':
+                sortedObservations.sort((a, b) => {
+                    if (new Date(a.time) > new Date(b.time)) {
+                        return -1
+                    } else if (new Date(a.time) < new Date(b.time)) {
+                        return 1
+                    } else {
+                        return 0
+                    }
+                })
+                break
+            case 'time (oldest)':
+                sortedObservations.sort((a, b) => {
+                    if (new Date(a.time) < new Date(b.time)) {
+                        return -1
+                    } else if (new Date(a.time) > new Date(b.time)) {
+                        return 1
+                    } else {
+                        return 0
+                    }
+                })
+                break
+            case 'species':
+                sortedObservations.sort((a, b) => {
+                    if (a.species.toString().toUpperCase() < b.species.toString().toUpperCase()) {
+                        return -1
+                    } else if (a.species.toString().toUpperCase() > b.species.toString().toUpperCase()) {
+                        return 1
+                    } else {
+                        return 0
+                    }
+                })
+                break
+            case 'rarity':
+                sortedObservations.sort((a, b) => {
+                    if (a.rarity.toString().toUpperCase() < b.rarity.toString().toUpperCase()) {
+                        return -1
+                    } else if (a.rarity.toString().toUpperCase() > b.rarity.toString().toUpperCase()) {
+                        return 1
+                    } else {
+                        return 0
+                    }
+                })
+                break
+            default:
+                break
         }
-    
+
         this.setState({ observations: sortedObservations, sorted: true })
-      }
-    
-      async changeSorting() {
+    }
+
+    async changeSorting() {
         if (this.state.sortNo < 3) {
-          await this.setState({ sortNo: this.state.sortNo + 1 })
+            await this.setState({ sortNo: this.state.sortNo + 1 })
         } else {
-          await this.setState({ sortNo: 0 })
+            await this.setState({ sortNo: 0 })
         }
         this.sortObservations()
-      }
+    }
     render() {
         return (
             <div>
@@ -89,11 +89,8 @@ class ListingPage extends React.Component {
                 <button onClick={() => this.changeSorting()}>Sort by: {this.state.sortedBy[this.state.sortNo]}</button>
                 <br></br>
                 <br></br>
-                {this.state.observations ?
-                    this.state.observations.map(obs => <ObservationCard observation={obs} key={obs.id} />)
-                    :
-                    <p>No observations</p>
-                }
+                {this.state.observations.map(obs => <ObservationCard observation={obs} key={obs.id} />)}
+
             </div>
         )
     }
