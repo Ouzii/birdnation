@@ -2,6 +2,12 @@ import axios from 'axios'
 
 const baseUrl = 'https://birdnation.herokuapp.com/api/observations'
 
+  axios.interceptors.request.use(function (config) {
+    window.dispatchEvent(new CustomEvent('axios', { detail: config }))
+    return config;
+  }, function (error) {
+    return Promise.reject(error);
+  });
 const config = () => {
     return {
         headers: { 'Content-Type': 'Application/json' }

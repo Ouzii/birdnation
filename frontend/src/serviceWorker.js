@@ -32,29 +32,7 @@ export function register(config) {
       return;
     }
 
-    window.addEventListener('fetch', (event) => {
-      if (event.request.method === "POST") {
-        event.respondWith(
-          // First try to fetch the request from the server
-          fetch(event.request.clone())
-            .catch(() => {
-              store()
-            })
-        );
-      }
-    });
-
-    function store() {
-      var newPost = ""; // Inputted values
-      // Iterate through the inputs
-      ("input").each(function () {
-        newPost += (this).val() + ",";
-      });
-      // Get rid of the last comma
-      newPost = newPost.substr(0, newPost.length - 1);
-      // Store the data
-      localStorage.setItem('newPost', newPost);
-    };
+    
 
     window.addEventListener('load', () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
