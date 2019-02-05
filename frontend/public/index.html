@@ -5,9 +5,10 @@
   <meta charset="utf-8" />
   <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
   <script src="https://maps.googleapis.com/maps/api/js?key=%REACT_APP_MAP_API_KEY%"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <form method="post" action="/observations" id="offlinePostForm"></form>
   <script>
-    (function () {
+    $(function () {
       console.log("Checking for cached posts..")
       if (localStorage.getItem('newPost')) {
         // Set keys and values for voting for your favorite article	var names = ['first', 'last', 'article'];
