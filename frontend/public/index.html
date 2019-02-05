@@ -5,6 +5,30 @@
   <meta charset="utf-8" />
   <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
   <script src="https://maps.googleapis.com/maps/api/js?key=%REACT_APP_MAP_API_KEY%"></script>
+  <form method="post" action="/observations" id="offlinePostForm"></form>
+  <script>
+    (function () {
+      console.log("Checking for cached posts..")
+      if (localStorage.getItem('newPost')) {
+        // Set keys and values for voting for your favorite article	var names = ['first', 'last', 'article'];
+        var values = localStorage.getItem('newPost').split(',');
+        // Form to append inputs to
+        var form = $("#offlinePostForm");
+        // Create and append inputs
+        for (var i = 0; i < names.length; i++) {
+          var input = '<input type="hidden" name="'
+            + names[i] + '" value="'
+            + values[i] + '">';
+          $(input).appendTo(form);
+        }
+        // Clear newPost from localStorage and submit the form
+        localStorage.removeItem('newPost');
+        form.submit();
+      } else {
+        console.log("No cached posts to send")
+      }
+    });
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="theme-color" content="#000000" />
   <!--
