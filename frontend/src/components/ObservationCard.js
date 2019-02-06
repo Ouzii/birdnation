@@ -57,8 +57,13 @@ class ObservationCard extends React.Component {
                     :
                     <div onClick={() => this.toggleExtended()} >
                     <Card className='cardReact'>
-                        <h4>{this.state.species}</h4> <br></br>
-                        {this.state.notes.substring(0, 15)}...
+                        <h4>{this.state.species}</h4>
+                        <p>{this.state.rarity}</p><br></br>
+                        {this.state.notes.length > 15 ? 
+                        <p>{this.state.notes.substring(0, 15)}...</p>
+                        :
+                        <p>{this.state.notes}</p>
+                        }
                     </Card>
                     </div>
                 }
