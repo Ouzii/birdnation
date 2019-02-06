@@ -4,6 +4,7 @@ Birdnation is PWA application made with ReactJS frontend and Node.js backend. Bo
 
 Birdnation can be used in offline mode after first time use in online. Application will post all new observations made offline when the user has internet connectivity and reloads the page.
 
+Offline mode is implemented with a service worker, that caches all the fetched data. POST-requests are saved to local storage, until they can be succesfully posted. Saving to local storage has been implemented with ReactJS (axios interceptor) and a little bit of JQuery. Also custom events are used to trigger the saving. All observations are also saved into local storage for offline use. 
 
 ### [Link to production](https://birdnation.herokuapp.com/)
 
