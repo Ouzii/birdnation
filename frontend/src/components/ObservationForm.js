@@ -48,7 +48,7 @@ class ObservationForm extends React.Component {
         )
         .catch((error) => {
             console.log(error)
-            this.props.updateObservations({id: 0, ...newObservation})
+            this.props.updateObservations({id: Math.floor(Math.random() * Math.floor(1000)), ...newObservation})
         })
         this.setState({ returnToIndex: true })
         
