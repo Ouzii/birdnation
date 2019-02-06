@@ -59,7 +59,7 @@ class App extends React.Component {
         <BrowserRouter>
           <div>
             <h1>Birdnation</h1>
-            <p className="text-muted">Click the observations to expand them for more info!<br></br> Reclicking the card (above map) minimizes them</p>
+            <p className="text-muted">Click the observations to expand them for more info!<br></br> Reclicking the card above map minimizes them</p>
             {this.state.observations && this.state.observations.length > 0 ?
               <Route
                 exact
