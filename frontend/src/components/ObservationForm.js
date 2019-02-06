@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, Redirect } from 'react-router-dom';
 import observationService from '../services/observations';
+import validateObservation from '../validators/observationValidator';
 
 class ObservationForm extends React.Component {
     constructor(props) {
@@ -9,7 +10,8 @@ class ObservationForm extends React.Component {
             species: '',
             rarity: 'Common',
             notes: '',
-            returnToIndex: false
+            returnToIndex: false,
+            errors: null
         }
     }
 
@@ -40,18 +42,27 @@ class ObservationForm extends React.Component {
             longitude: position.longitude,
             time: new Date()
         }
-        
+
+        let errors = validateObservation(newObservation)
+
+        if (errors.length > 0) {
+            this.setState({ errors })
+            setTimeout(() => {
+                this.setState({ errors: null })
+            }, 4000)
+            return
+        }
 
         await observationService.create(newObservation)
-        .then((savedObservation) =>
-            this.props.updateObservations(savedObservation)
-        )
-        .catch((error) => {
-            console.log(error)
-            this.props.updateObservations({id: Math.floor(Math.random() * Math.floor(1000)), ...newObservation})
-        })
+            .then((savedObservation) =>
+                this.props.updateObservations(savedObservation)
+            )
+            .catch((error) => {
+                console.log(error)
+                this.props.updateObservations({ id: Math.floor(Math.random() * Math.floor(1000)), ...newObservation })
+            })
         this.setState({ returnToIndex: true })
-        
+
     }
 
     handleChange = (event) => {
@@ -59,15 +70,27 @@ class ObservationForm extends React.Component {
     }
 
     render() {
-        if(this.state.returnToIndex) {
+        if (this.state.returnToIndex) {
             return <Redirect to='/' />
         }
         return (
             <div>
-                
+
                 <NavLink to='/'>Cancel</NavLink>
                 <br></br>
                 <br></br>
+                {this.state.errors ?
+                    <div>
+                        {this.state.errors.map(error =>
+                            <div className="alert alert-dismissible alert-danger" key={error}>
+                                <button type="button" className="close" onClick={() => this.setState({errors: null})}>&times;</button>
+                                <strong>{error}</strong>
+                            </div>
+                        )}
+                    </div>
+                    :
+                    <div>
+                    </div>}
                 <form onSubmit={this.addObservation}>
                     <label>Species</label>
                     <br></br>
