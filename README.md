@@ -2,6 +2,9 @@
 
 Birdnation is PWA application made with ReactJS frontend and Node.js backend. Bootswatch Sketchy-theme (https://bootswatch.com/sketchy/) offers the nice look for the application. Production build of application is running in Heroku, while MongoDB database is hosted by mlab.
 
+Birdnation can be used in offline mode after first time use in online. Application will post all new observations made offline when the user has internet connectivity and reloads the page.
+
+
 ### [Link to production](https://birdnation.herokuapp.com/)
 
 ### Environment variables
