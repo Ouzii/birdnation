@@ -32,39 +32,48 @@ class ObservationCard extends React.Component {
                 {this.state.extended ?
                     <Card className='cardReact'>
                         <div onClick={() => this.toggleExtended()} >
-                        <h4>{this.state.species}</h4>
-                        
-                        <CardBody>
-                            <div onClick={() => this.toggleExtended()} style={{ cursor: "pointer" }}>
-                            Rarity: {this.state.rarity}<br></br>
-                            Location: {this.state.latitude}, {this.state.longitude}<br></br>
-                            Notes: {this.state.notes}<br></br>
-                            Observed: {new Intl.DateTimeFormat('en-GB', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: '2-digit',
-                                hour: '2-digit',
-                                minute: '2-digit',
-                                second: '2-digit'
+                            <h4>{this.state.species}</h4>
 
-                            }).format(new Date(this.state.time))}<br></br>
-                            </div>
-                            
-                        </CardBody>
+                            <CardBody>
+                                <div onClick={() => this.toggleExtended()} style={{ cursor: "pointer" }}>
+                                    Rarity: {this.state.rarity}<br></br>
+                                    {this.state.latitude === "Not available" ?
+                                        <div>Location: {this.state.latitude}</div>
+                                        :
+                                        <div>Location: {this.state.latitude}, {this.state.longitude}</div>
+                                    }
+                                    Notes: {this.state.notes}<br></br>
+                                    Observed: {new Intl.DateTimeFormat('en-GB', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: '2-digit',
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        second: '2-digit'
+
+                                    }).format(new Date(this.state.time))}<br></br>
+                                </div>
+
+                            </CardBody>
                         </div>
-                        <Map lat={this.state.latitude} lng={this.state.longitude}/>
+                        {this.state.latitude === "Not available" ?
+                            <div></div>
+                            :
+                            <Map lat={this.state.latitude} lng={this.state.longitude} />
+                        }
+
                     </Card>
                     :
                     <div onClick={() => this.toggleExtended()} >
-                    <Card className='cardReact'>
-                        <h4>{this.state.species}</h4>
-                        <p>{this.state.rarity}</p><br></br>
-                        {this.state.notes.length > 15 ? 
-                        <p>{this.state.notes.substring(0, 15)}...</p>
-                        :
-                        <p>{this.state.notes}</p>
-                        }
-                    </Card>
+                        <Card className='cardReact'>
+                            <h4>{this.state.species}</h4>
+                            <p>{this.state.rarity}</p><br></br>
+                            {this.state.notes.length > 15 ?
+                                <p>{this.state.notes.substring(0, 15)}...</p>
+                                :
+                                <p>{this.state.notes}</p>
+                            }
+                        </Card>
                     </div>
                 }
 

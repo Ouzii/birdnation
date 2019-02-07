@@ -33,7 +33,10 @@ class ObservationForm extends React.Component {
 
     addObservation = async (event) => {
         event.preventDefault()
-        const position = await this.loadPosition()
+        let position = await this.loadPosition()
+        if (!position) {
+            position = { latitude: "Not available", longitude: "Not available" }
+        }
         let newObservation = {
             species: this.state.species,
             rarity: this.state.rarity,
