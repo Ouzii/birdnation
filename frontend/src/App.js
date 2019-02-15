@@ -29,20 +29,15 @@ class App extends React.Component {
       }
     })
     let obs = []
+    const localObservations = JSON.parse(window.localStorage.getItem('observations'))
+    if (localObservations) this.setState({ observations: localObservations })
     obs = await observationService.getAll()
       .catch(error => {
         return JSON.parse(window.localStorage.getItem('observations'))
       })
-    const localObservations = JSON.parse(window.localStorage.getItem('observations'))
     if (obs !== localObservations && obs.length > 0) {
       window.localStorage.setItem('observations', JSON.stringify(obs))
       await this.setState({ observations: obs })
-    } else {
-      if (localObservations) {
-        await this.setState({ observations: localObservations })
-      } else {
-        await this.setState({ observations: [] })
-      }
     }
   }
 

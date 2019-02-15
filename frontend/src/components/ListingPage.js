@@ -13,13 +13,10 @@ class ListingPage extends React.Component {
 
     }
 
-    componentDidMount() {
-        this.sortObservations()
-    }
-
     componentWillReceiveProps(nextProps) {
         if (this.props !== nextProps) {
             this.setState({ observations: nextProps.observations })
+            this.sortObservations()
         }
     }
 
